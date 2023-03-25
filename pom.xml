@@ -18,6 +18,7 @@
     <modules>
         <module>grind-75-list</module>
         <module>algorithms-i</module>
+        <module>freecodecamp-dp</module>
     </modules>
 
 </project>
