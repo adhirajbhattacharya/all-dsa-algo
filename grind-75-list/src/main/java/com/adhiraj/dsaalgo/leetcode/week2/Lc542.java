@@ -42,16 +42,16 @@ public class Lc542 {
         if (mat[i][j] == 0)
             return 0;
 
-        int north = mat[i][j], west = mat[i][j];
+        int south = mat[i][j], east = mat[i][j];
 
         if (i < row - 1) {
-            north = Math.min(mat[i + 1][j] == Integer.MAX_VALUE ? mat[i + 1][j] : mat[i + 1][j] + 1, north);
+            south = Math.min(mat[i + 1][j] == Integer.MAX_VALUE ? mat[i + 1][j] : mat[i + 1][j] + 1, south);
         }
         if (j < col - 1) {
-            west = Math.min(mat[i][j + 1] == Integer.MAX_VALUE ? mat[i][j + 1] : mat[i][j + 1] + 1, west);
+            east = Math.min(mat[i][j + 1] == Integer.MAX_VALUE ? mat[i][j + 1] : mat[i][j + 1] + 1, east);
         }
 
-        return Math.min(north, west);
+        return Math.min(south, east);
     }
 }
 
