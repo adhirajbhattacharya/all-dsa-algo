@@ -6,114 +6,58 @@ import java.util.stream.Collectors;
 public class AllConstruct {
 
     public static void main(String[] args) {
-        System.out.println(solve("abcdef", new String[]{"abc", "cdef", "def", "ab", "cd", "ef", "abcd"}));
-        System.out.println(solve("abcdef", new String[]{"ab", "abc", "abcd", "c", "cd", "ef", "def"}));
-        System.out.println(solve("hello", new String[]{"ab", "abc", "cd", "def", "abcd"}));
-        System.out.println(solve("skateboard", new String[]{"bo", "rd", "ate", "t", "ska", "sk", "boar"}));
-        System.out.println(solve("enterapotentpot", new String[]{"a", "p", "ent", "enter", "ot", "o", "t"}));
-        System.out.println(solve("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef",
-                new String[]{"e", "ee", "eee", "eeee", "eeeee", "eeeeee"}));
+        System.out.println(solve("abc", new String[] {"a", "b", "c", "ab"}));
+        System.out.println(solve("abcdef", new String[] {"abc", "cdef", "def", "ab", "cd", "ef", "abcd"}));
+        System.out.println(solve("abcdef", new String[] {"ab", "abc", "abcd", "c", "cd", "ef", "def"}));
+        System.out.println(solve("hello", new String[] {"ab", "abc", "cd", "def", "abcd"}));
+        System.out.println(solve("skateboard", new String[] {"bo", "rd", "ate", "t", "ska", "sk", "boar"}));
+        System.out.println(solve("enterapotentpot", new String[] {"a", "p", "ent", "enter", "ot", "o", "t"}));
+        System.out.println(solve("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef", new String[] {"e", "ee", "eee", "eeee", "eeeee", "eeeeee"}));
+        System.out.println(solve("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef", new String[]{"e", "ee", "eee", "eeee", "eeeee", "eeeeee", "f"}));
     }
 
     public static List<List<String>> solve(String target, String[] words) {
-        return solveTab(target, words);
+        return solveTab2(target, words);
     }
 
     private static List<List<String>> solveTab(String target, String[] words) {
-        Set<List<String>>[] memo = new Set[target.length() + 1];
-
-        memo[0] = new HashSet<>();
+        List<List<String>>[] memo = (List<List<String>>[]) new List[target.length() + 1];
+        for (int i = 0; i < memo.length; i++) memo[i] = new ArrayList<>();
         memo[0].add(new ArrayList<>());
-
         for (int i = 0; i < memo.length; i++) {
-            if (memo[i] == null) continue;
-            for (int j = 0; j < words.length; j++) {
-                String word = words[j];
-                if (target.substring(i).startsWith(word)) {
-                    if (memo[i + word.length()] == null) {
-                        memo[i + word.length()] = new HashSet<>();
+            if (memo[i].isEmpty()) continue;
+            String currTarget = target.substring(i);
+            for (String word : words) {
+                if (!currTarget.startsWith(word)) continue;
+                List<List<String>> res = memo[i].stream().map(ArrayList::new).peek(list -> list.add(word)).collect(Collectors.toList());
+                memo[i + word.length()].addAll(res);
+            }
+        }
+        return memo[target.length()];
+    }
+
+    public static List<List<String>> solveTab2(String target, String[] wordBank) {
+        List<List<String>>[] table = (List<List<String>>[]) new List[target.length() + 1];
+        for (int i = 0; i < table.length; i++) {
+            table[i] = new ArrayList<>();
+        }
+        table[0].add(new ArrayList<>());
+
+        for (int i = 0; i <= target.length(); i++) {
+            for (String word : wordBank) {
+                if (i + word.length() <= target.length() && target.substring(i, i + word.length()).equals(word)) {
+                    List<List<String>> newCombinations = new ArrayList<>();
+                    for (List<String> arr : table[i]) {
+                        List<String> newCombination = new ArrayList<>(arr);
+                        newCombination.add(word);
+                        newCombinations.add(newCombination);
                     }
-                    memo[i + word.length()]
-                            .addAll(memo[i].stream()
-                                    .map(list -> {
-                                        List<String> newList = new ArrayList<>(list);
-                                        newList.add(word);
-                                        newList.sort(String::compareTo);
-                                        return newList;
-                                    })
-                                    .collect(Collectors.toList()));
+                    table[i + word.length()].addAll(newCombinations);
                 }
             }
         }
-
-        return memo[target.length()] == null ? null : new ArrayList<>(memo[target.length()]);
+        return table[target.length()];
     }
 
-    private static List<List<String>> solveMemoMap(String target, String[] words, Map<String, List<List<String>>> memo) {
-        if (target.equals("")) {
-            List<List<String>> starter = new ArrayList<>();
-            starter.add(new ArrayList<>());
-            return starter;
-        }
 
-        if (memo.containsKey(target)) {
-            return memo.get(target);
-        }
-        List<List<String>> val = null;
-
-        for (String word : words) {
-            if (target.startsWith(word)) {
-                List<List<String>> curr = solveMemoMap(target.substring(word.length()), words, memo);
-                if (curr != null) {
-                    curr = new ArrayList<>(curr);
-                    curr = curr.parallelStream().map(list -> {
-                        List<String> newList = new ArrayList<>(list);
-                        return newList;
-                    }).map(list -> {
-                        list.add((word));
-                        return list;
-                    }).collect(Collectors.toList());
-
-                    if (val == null) val = new ArrayList<>();
-                    val.addAll(curr);
-                }
-            }
-        }
-        memo.put(target, val);
-        return val;
-    }
-
-    private static List<List<String>> solveMemoArray(String target, String[] words, List<List<String>>[] memo) {
-        if (target.equals("")) {
-            List<List<String>> starter = new ArrayList<>();
-            starter.add(new ArrayList<>());
-            return starter;
-        }
-
-        if (memo[target.length()] != null) {
-            return memo[target.length()];
-        }
-        List<List<String>> val = null;
-
-        for (String word : words) {
-            if (target.startsWith(word)) {
-                List<List<String>> curr = solveMemoArray(target.substring(word.length()), words, memo);
-                if (curr != null) {
-                    curr = new ArrayList<>(curr);
-                    curr = curr.parallelStream().map(list -> {
-                        List<String> newList = new ArrayList<>(list);
-                        return newList;
-                    }).map(list -> {
-                        list.add((word));
-                        return list;
-                    }).collect(Collectors.toList());
-
-                    if (val == null) val = new ArrayList<>();
-                    val.addAll(curr);
-                }
-            }
-        }
-        memo[target.length()] = val;
-        return val;
-    }
 }

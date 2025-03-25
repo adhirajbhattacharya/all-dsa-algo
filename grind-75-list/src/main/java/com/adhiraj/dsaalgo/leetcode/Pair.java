@@ -1,11 +1,13 @@
 package com.adhiraj.dsaalgo.leetcode;
 
+import lombok.ToString;
+
 import java.util.Objects;
 
+@ToString
 public class Pair {
 
     public int first;
-
     public int second;
 
     public  Pair (int first, int second) {

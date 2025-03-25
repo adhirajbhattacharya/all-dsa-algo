@@ -12,12 +12,4 @@
     <artifactId>freecodecamp-dp</artifactId>
     <description>https://www.youtube.com/watch?v=oBt53YbR9Kk</description>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
-        </dependency>
-    </dependencies>
-
 </project>

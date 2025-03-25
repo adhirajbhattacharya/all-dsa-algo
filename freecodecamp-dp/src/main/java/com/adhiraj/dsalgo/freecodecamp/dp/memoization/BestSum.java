@@ -17,55 +17,52 @@ public class BestSum {
     }
 
     public static List<Integer> solve(int target, int[] nums) {
-//        Arrays.sort(nums);
 //        return solveMemoMap(target, nums, new HashMap<>());
         return solveMemoArray(target, nums, new List[target + 1], new boolean[target + 1]);
     }
 
     private static List<Integer> solveMemoMap(int target, int[] nums, HashMap<Integer, List<Integer>> memo) {
-        if (target < 0) return null;
         if (target == 0) return new ArrayList<>();
-
-        List<Integer> val = null;
-        if (memo.containsKey(target)) {
-            val = memo.get(target);
-            return val == null ? null : new ArrayList<>(val);
-        }
-
+        if (memo.containsKey(target)) return memo.get(target);
+        List<Integer> result = null;
         for (int num : nums) {
-            int rem = target - num;
-
-            List<Integer> curr = solveMemoMap(rem, nums, memo);
-            if (curr != null && (val == null || val.size() - 1 > curr.size())) {
-                curr.add(num);
-                val = curr;
+            int remainder = target - num;
+            if (remainder < 0) continue;
+            List<Integer> currResult = solveMemoMap(remainder, nums, memo);
+            if (currResult == null) continue;
+            if (result == null) {
+                result = new ArrayList<>(currResult);
+                result.add(num);
+            } else if (currResult.size() + 1 < result.size()) {
+                result = new ArrayList<>(currResult);
+                result.add(num);
             }
         }
-        memo.put(target, val);
-        return val == null ? null : new ArrayList<>(val);
+        memo.put(target, result);
+        return result;
     }
 
-    private static List<Integer> solveMemoArray(int target, int[] nums, List[] memo, boolean[] done) {
-        if (target < 0) return null;
+    private static List<Integer> solveMemoArray(int target, int[] nums, List<Integer>[] memo, boolean[] done) {
         if (target == 0) return new ArrayList<>();
-
-        List<Integer> val = null;
         if (done[target]) {
-            val = memo[target];
-            return val == null ? null : new ArrayList<>(val);
+            return memo[target];
         }
-
+        List<Integer> result = null;
         for (int num : nums) {
-            int rem = target - num;
-
-            List<Integer> curr = solveMemoArray(rem, nums, memo, done);
-            if (curr != null && (val == null || val.size() - 1 > curr.size())) {
-                curr.add(num);
-                val = curr;
+            int remainder = target - num;
+            if (remainder < 0) continue;
+            List<Integer> currResult = solveMemoArray(remainder, nums, memo, done);
+            if (currResult == null) continue;
+            if (result == null) {
+                result = new ArrayList<>(currResult);
+                result.add(num);
+            } else if (currResult.size() + 1 < result.size()) {
+                result = new ArrayList<>(currResult);
+                result.add(num);
             }
         }
         done[target] = true;
-        memo[target] = val;
-        return val == null ? null : new ArrayList<>(val);
+        memo[target] = result;
+        return result;
     }
 }

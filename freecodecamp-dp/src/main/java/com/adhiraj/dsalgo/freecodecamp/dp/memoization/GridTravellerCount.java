@@ -17,44 +17,27 @@ public class GridTravellerCount {
     }
 
     public static long solve(int row, int col) {
-        if (row < 0 || col < 0) throw new IllegalArgumentException("row:" + row + "col:" + col);
+        if (row <= 0 || col <= 0) throw new IllegalArgumentException("row:" + row + "col:" + col);
         return solveMemoMap(row, col, new HashMap<>());
 //        return solveMemoArray(row, col, new Long[row + 1][col + 1]);
     }
 
     private static long solveMemoMap(int row, int col, HashMap<Pair, Long> memo) {
-        if (row == 0 || col == 0) return 0;
-        /**
-         * base case.
-         * can either be this or grid of (1, 1).
-         * this will cause the base to appear quickly.
-         */
         if (row == 1 || col == 1) return 1;
-
-        Pair key = new Pair(row, col);
-        Pair altKey = new Pair(col, row);
-        Long val = memo.get(key);
-        if (val != null) return val;
-        val = memo.get(altKey);
-        if (val != null) return val;
-
-        val = solveMemoMap(row - 1, col, memo) + solveMemoMap(row, col - 1, memo);
-        memo.put(key, val);
-        return val;
+        Pair memoKey = new Pair(row, col);
+        Long result = memo.get(memoKey);
+        if (result != null) return result;
+        result = solveMemoMap(row - 1, col, memo) + solveMemoMap(row, col - 1, memo);
+        memo.put(memoKey, result);
+        return result;
     }
 
     private static long solveMemoArray(int row, int col, Long[][] memo) {
-        if (row == 0 || col == 0) return 0;
-        /**
-         * base case.
-         * can either be this or grid of (1, 1).
-         * this will cause the base to appear quickly.
-         */
         if (row == 1 || col == 1) return 1;
-
-        if (memo[row][col] != null) return memo[row][col];
-
-        memo[row][col] = solveMemoArray(row - 1, col, memo) + solveMemoArray(row, col - 1, memo);
-        return memo[row][col];
+        Long result = memo[row][col];
+        if (result != null) return result;
+        result = solveMemoArray(row - 1, col, memo) + solveMemoArray(row, col - 1, memo);
+        memo[row][col] = result;
+        return result;
     }
 }

@@ -1,6 +1,6 @@
 package com.adhiraj.dsaalgo.leetcode.week3;
 
-import com.adhiraj.dsaalgo.leetcode.Graph;
+import com.adhiraj.dsaalgo.leetcode.DiGraph;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -15,10 +15,10 @@ public class Lc207 {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         if (numCourses == 1 || prerequisites.length < 2) return true;
 
-        return isDag(numCourses, new Graph(prerequisites, numCourses));
+        return isDag(numCourses, new DiGraph(numCourses, prerequisites));
     }
 
-    private boolean isDag(int countOfNodes, Graph graph) {
+    private boolean isDag(int countOfNodes, DiGraph graph) {
         // instead of keep 2 separate arrays for current recursion and visited,
         // OR we can use a single int array with where we can use
 
@@ -31,7 +31,7 @@ public class Lc207 {
         return true;
     }
 
-    private boolean hasCycleDfs(Graph graph, boolean [] recursion, boolean[] visited, int source) {
+    private boolean hasCycleDfs(DiGraph graph, boolean [] recursion, boolean[] visited, int source) {
         if (recursion[source])
             return true;
 
@@ -40,7 +40,7 @@ public class Lc207 {
         visited[source] = true;
 
         recursion[source] = true;
-        for (int i : graph.vertices[source]) {
+        for (int i : graph.adj[source]) {
             if (hasCycleDfs(graph, recursion, visited, i)) return true;
         }
         recursion[source] = false;
@@ -54,10 +54,10 @@ class Lc207Alt {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         if (numCourses == 1 || prerequisites.length < 2) return true;
 
-        return isDag(numCourses, new Graph(prerequisites, numCourses));
+        return isDag(numCourses, new DiGraph(numCourses, prerequisites));
     }
 
-    private boolean isDag(int countOfNodes, Graph graph) {
+    private boolean isDag(int countOfNodes, DiGraph graph) {
         // instead of keep 2 separate arrays for current recursion and visited,
         // OR we can use a single int array with where we can use
 
@@ -69,7 +69,7 @@ class Lc207Alt {
         return true;
     }
 
-    private boolean hasCycleDfs(Graph graph, int[] nodetracker, int source) {
+    private boolean hasCycleDfs(DiGraph graph, int[] nodetracker, int source) {
         if (nodetracker[source] == 2) // dfs on node already completed before
             return false;
 
@@ -77,7 +77,7 @@ class Lc207Alt {
             return true;
 
         nodetracker[source] = 1; // mark node visited in current recursion
-        for (int i : graph.vertices[source]) {
+        for (int i : graph.adj[source]) {
             if (hasCycleDfs(graph, nodetracker, i)) return true;
         }
 
@@ -94,10 +94,10 @@ class Lc207Alt {
 class Lc207AltKahn {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         if (numCourses == 1 || prerequisites.length < 2) return true;
-        return !topoSort(numCourses, new Graph(prerequisites, numCourses)).isEmpty(); // kahn's
+        return !topoSort(numCourses, new DiGraph(numCourses, prerequisites)).isEmpty(); // kahn's
     }
 
-    public List<Integer> topoSort(int countOfNodes, Graph g) {
+    public List<Integer> topoSort(int countOfNodes, DiGraph g) {
         List<Integer> res = new ArrayList<>();
 
         Queue<Integer> q = new ArrayDeque<>();
@@ -110,7 +110,7 @@ class Lc207AltKahn {
         while (!q.isEmpty()) {
             int src = q.poll();
             res.add(src);
-            for (int i : g.vertices[src]) {
+            for (int i : g.adj[src]) {
                 g.indegrees[i]--;
                 if (g.indegrees[i] == 0)
                     q.offer(i);

@@ -1,5 +1,6 @@
 package com.adhiraj.dsalgo.freecodecamp.dp.memoization;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Fibonacci {
@@ -21,27 +22,25 @@ public class Fibonacci {
 
     public static long solve(int n) {
         if (n < 0) throw new IllegalArgumentException("n:" + n);
-//        return fibMemoMap(n, new HashMap<>());
+//        return solveMemoMap(n, new HashMap<>());
         return solveMemoArray(n, new Long[n + 1]);
     }
 
     private static long solveMemoMap(int n, Map<Integer, Long> memo) {
-        if (n == 0) return 0;
-        if (n <= 2) return 1;
-        Long val = memo.get(n);
-        if (val != null) return val;
-
-        val = solveMemoMap(n - 1, memo) + solveMemoMap(n - 2, memo);
-        memo.put(n, val);
-        return val;
+        if (n < 2) return n;
+        Long result = memo.get(n);
+        if (result != null) return result;
+        result = solveMemoMap(n - 1, memo) + solveMemoMap(n - 2, memo);
+        memo.put(n, result);
+        return result;
     }
 
     private static long solveMemoArray(int n, Long[] memo) {
-        if (n == 0) return 0;
-        if (n <= 2) return 1;
-        if (memo[n] != null) return memo[n];
-
-        memo[n] = solveMemoArray(n - 1, memo) + solveMemoArray(n - 2, memo);
-        return memo[n];
+        if (n < 2) return n;
+        Long result = memo[n];
+        if (result != null) return result;
+        result = solveMemoArray(n - 1, memo) + solveMemoArray(n - 2, memo);
+        memo[n] = result;
+        return result;
     }
 }

@@ -1,0 +1,28 @@
+Two Pointer (2 Sum, Palindrome) - Traverse list from both directions simultaneously. Based on condition either pointer will move. Merge to a common point.
+HashMap (2 Sum, Anagram) - Store data (cache) for fast searching later.
+Stack (Valid Parentheses) - Whenever need to process last seen(stored) element. LIFO.
+LinkedList - Only when list needs to have update/replace capability. Not many uses, point lookup always good with ArrayList.
+Kadane's Algorithm (Maximum Sum Subarray) - Maximize anything over contiguous subarray.
+Binary Search - Fast search over any list, array. Should be able to create the searchable space within 1 pass (else will not be ok) and use log_n search for each query.
+    So require preprocessing.
+Sliding Window (Anagrams between two strings) - Modified 2 pointers. Need to process a contiguous window of element together and modify whole window using the 2 pointers.
+Priority Queue - Whenever processing is in order of element priority.
+Fast and Slow pointer - Modified 2 pointers. Slow moves x (usually 1) elements on the list. Fast moves n*x elements. n = 1, 2, 3
+Trie - When needed to store multiple strings and search for commonality between them individually and together
+BFS
+DFS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Binary Trees

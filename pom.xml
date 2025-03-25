@@ -11,14 +11,26 @@
     <description>All dsa algo courses and interview questions</description>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <modules>
         <module>grind-75-list</module>
         <module>algorithms-i</module>
         <module>freecodecamp-dp</module>
+        <module>company-interviews</module>
+        <module>leetcode-questions-company</module>
+        <module>neetcode-io-list</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+        </dependency>
+    </dependencies>
 
 </project>

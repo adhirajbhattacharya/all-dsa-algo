@@ -1,13 +1,8 @@
 package com.adhiraj.dsalgo.freecodecamp.dp.memoization;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
-@AllArgsConstructor(access = AccessLevel.PACKAGE)
-@EqualsAndHashCode
-@ToString
-class Pair {
+@Value
+public class Pair {
     int first, second;
 }

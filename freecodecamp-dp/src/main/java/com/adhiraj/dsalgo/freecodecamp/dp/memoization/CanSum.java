@@ -14,50 +14,37 @@ public class CanSum {
     }
 
     public static boolean solve(int target, int[] nums) {
-        return solveMemoMap(target, nums, new HashMap<>());
-//        return solveMemoArray(target, nums, new Boolean[target + 1]);
+//        return solveMemoMap(target, nums, new HashMap<>());
+        return solveMemoArray(target, nums, new Boolean[target + 1]);
     }
 
     private static boolean solveMemoMap(int target, int[] nums, HashMap<Integer, Boolean> memo) {
-        // check: (target < 0) not required if check: (rem < 0) is done. both are correct to do
-        if (target < 0) return false;
         if (target == 0) return true;
-
-        Boolean val = memo.get(target);
-        if (val != null) return val;
-
+        Boolean result = memo.get(target);
+        if (result != null) return result;
+        result = false;
         for (int num : nums) {
-            int rem = target - num;
-            if (rem < 0) continue;
-
-            boolean possible = solveMemoMap(rem, nums, memo);
-            if (possible) {
-                memo.put(target, true);
-                return true;
-            }
+            int remainder = target - num;
+            if (remainder < 0) continue;
+            result = Boolean.logicalOr(result, solveMemoMap(remainder, nums, memo));
+            if (result) break;
         }
-        memo.put(target, false);
-        return false;
+        memo.put(target, result);
+        return result;
     }
 
     private static boolean solveMemoArray(int target, int[] nums, Boolean[] memo) {
-        // check: (target < 0) not required if check: (rem < 0) is done. both are correct to do
-        if (target < 0) return false;
         if (target == 0) return true;
-
-        if (memo[target] != null) return memo[target];
-
+        Boolean result = memo[target];
+        if (result != null) return result;
+        result = false;
         for (int num : nums) {
             int rem = target - num;
             if (rem < 0) continue;
-
-            boolean possible = solveMemoArray(rem, nums, memo);
-            if (possible) {
-                memo[target] = true;
-                return true;
-            }
+            result = Boolean.logicalOr(result, solveMemoArray(rem, nums, memo));
+            if (result) break;
         }
-        memo[target] = false;
-        return false;
+        memo[target] = result;
+        return result;
     }
 }
