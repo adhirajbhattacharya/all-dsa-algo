@@ -11,6 +11,7 @@
     <description>All dsa algo courses and interview questions</description>
 
     <properties>
+        <java.version>21</java.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,8 +22,10 @@
         <module>algorithms-i</module>
         <module>freecodecamp-dp</module>
         <module>company-interviews</module>
+        <module>justleetcode</module>
         <module>leetcode-questions-company</module>
         <module>neetcode-io-list</module>
+        <module>ds-algo-tutorials</module>
     </modules>
 
     <dependencies>
