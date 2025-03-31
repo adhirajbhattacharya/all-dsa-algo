@@ -1,4 +1,4 @@
-package com.adhiraj.dsalgo.karat.atlassian;
+package com.adhiraj.dsalgo.atlassian.karat;
 
 /**
  * events: [["CONNECT", "Alice", "Bob"], ["CONNECT, "Charlie", "Frank"], ["DISCONNECT", "Bob", "Alice"], ["CONNECT", "Frank", "Bob"],...]

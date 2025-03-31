@@ -1,4 +1,4 @@
-package com.adhiraj.dsalgo.karat.atlassian;
+package com.adhiraj.dsalgo.atlassian.karat;
 
 /**
  * data -> [{{USER}}, {{MOVIE}}, {{RATING}}] :: Means, {{USER}} has seen {{MOVIE}} and rated it with {{RATING}}
